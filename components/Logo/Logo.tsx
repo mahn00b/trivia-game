@@ -4,7 +4,7 @@ export default function Logo() {
 
   return (
     <span className={styles.Logo} aria-label="logo">
-      Quizly
+      Trivially
     </span>
   )
 }
