@@ -1,36 +1,124 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Trivia App
+###### *Powered by the trivia API*
 
-First, run the development server:
+## Description
+This web app is a trivia game that allows a user to answer trivia questions and tally a score based on the results. This application is powered by the [Trivia API](https://opentdb.com/api_config.php).
 
+## Usage
+
+### Pre-Requisites
+This app was built using next.js so it requires that you have that installed as well as one of the various npm package manager
+
+**System Requirements**:
+- Node.js 14.6.0 or newer
+- MacOS, Windows (including WSL), and Linux are supported
+
+### Installation
+
+After cloning the repo, you need to install the dependencies using a terminal.
+
+using npm:
 ```bash
-npm run dev
-# or
-yarn dev
+$ npm install
+```
+using yarn:
+```bash
+$ yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Run
+The fastest way to get it running is to run it in dev mode. You can do this simply by running one of the following lines.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+using npm:
+```bash
+$ npm run dev
+```
+using yarn:
+```bash
+$ yarn dev
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+##### production
+If you want to run a production instance of this webapp, you need to build it first. Once it's built, then you can use the start script to run it.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+using npm:
+```bash
+$ npm run build
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# Build output here
 
-## Learn More
+$ npm run start
+```
+using yarn:
+```bash
+$ yarn build
 
-To learn more about Next.js, take a look at the following resources:
+# Build output here
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+$ yarn start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Design
 
-## Deploy on Vercel
+### API
+The original trivia api is pretty lean, assumedly, because it can't afford to cache too much data. However, it does provide some caching functionality in order to serve different questions every time. This is implemented in the form of sessions. We're going to expand on that API to store report data based on information based back from the client.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+##### Data
+In order to do this, we need to create a data model for what a report looks like.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Report
+```json
+{
+  /** The sessionId that pertains to this report */
+  "sessionId": "exampleId",
+  /** Count of the total generated questions for this session. */
+  "totalQuestions": 30,
+  /** Keeps track of the amount questions that were answered.  */
+  "answeredQuestions": 25,
+  /** An object that contains question/answer stats by difficulty. */
+  "answers": {
+    "easy": {
+      "correct": 9,
+      "incorrect": 4,
+      "unanswered": 2,
+      "total": 15
+    },
+    "medium": {
+      "correct": 5,
+      "incorrect": 4,
+      "unanswered": 1,
+      "total": 10
+    },
+    "hard": {
+      "correct": 1,
+      "incorrect": 2,
+      "unanswered": 2,
+      "total": 5
+    }
+  }
+  /** The UTC timestamp of the last time this report was updated. */
+  "updatedAt": 1232124124,
+  /** The UTC timestamp of the last time this report was updated. */
+  "createdAt": 1232124124
+}
+```
+
+##### Persistence
+For persistence we will simply store the reports in the cookies to be passed in the browser requests.
+
+##### New APIs
+In order to keep the report up-to-date, our API needs to support the following functionality:
+
+- Generate a new report when a quiz is started.
+- Submit an answer for a question.
+- Delete reports for sessions that have ended.
+- Tally questions in the report as they are generated.
+
+This endpoints could look like this:
+
+- **GET** `/start`: Creates a new quiz session and quiz report.
+- **GET** `/questions`: Sends new questions.
+- **POST** `/answer`: Submits an answer.
+- **GET** `/reset`: Deletes report and ends quiz session. Returns the final report.
