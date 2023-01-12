@@ -53,10 +53,6 @@ export default async function handler(
 ) {
   let report = getQuizReport(req);
 
-  if (report) {
-    return res.status(409).send('Session already exists. End current session to create a new one.')
-  }
-
   const token = await requestNewSessionToken();
 
   const questions = await getNewQuestions(token, req.query)

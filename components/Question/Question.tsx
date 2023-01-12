@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Question.module.scss';
 
 interface QuestionProps {
@@ -24,13 +24,17 @@ export default function Question({
 }: QuestionProps) {
   const [selection, setSelection] = useState('')
 
+  useEffect(() => {
+    setSelection('');
+  }, [question])
+
   // sort the answers alphabetically so the correct answer isn't always in the same place.
   const answers = [...incorrect_answers, correct_answer].sort()
 
   const handleAnswerClick = (response: string) => {
     if (disable) return;
 
-    onClickAnswer(selection, isCorrect)
+    onClickAnswer(response, isCorrect)
     setSelection(response)
   }
 
@@ -45,6 +49,7 @@ export default function Question({
           <li
             className={`${styles.answer} ${ans === selection && styles.selection} ${isCorrect && styles.correct} ${isIncorrect && styles.incorrect}`}
             onClick={() => { handleAnswerClick(ans) }}
+            key={ans}
           >
             {ans}
             <div className={styles.circle}></div>

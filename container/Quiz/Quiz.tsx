@@ -1,13 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import fetch from 'node-fetch';
-import { useTimeout } from '../../hooks'
 import {
   Question,
 } from '../../components';
 
 interface QuizProps {
-  /** The session ID for the quiz. */
-  sessionId: string;
   /** The initial questions */
   initialQuestions: Question[]
   /** A callback to retrieve the latest report. */
@@ -19,11 +16,50 @@ export default function Quiz({
   onNewReportGenerated
 }: QuizProps) {
   const [answer, setAnswer] = useState('');
-  const [currentQuestion, setCurrentQuestion] = useState(initialQuestions.shift())
-  const [questions, setQuestions] = useState(initialQuestions);
+  const timerref = useRef<NodeJS.Timeout>();
+  const [questions, setQuestions] = useState<Question[]>(initialQuestions);
+  const [currentQuestion, setCurrentQuestion] = useState<Question>();
+
+  useEffect(() => {
+    if (!currentQuestion) setCurrentQuestion(questions.shift())
+  }, [])
+
+  useEffect(() => {
+    if (answer === '') return;
+
+    timerref.current = setTimeout(() => {
+
+      setCurrentQuestion(questions.shift());
+      setAnswer('');
+
+      if (questions.length <= 3) requestMoreQuestions()
+
+    }, 1000)
+
+    return (() => {
+      clearTimeout(timerref.current);
+    })
+  }, [answer])
+
+  const answerQuestion = async (ans: string, _: boolean) => {
+    setAnswer(ans)
+
+   const response = await fetch('/api/answer', {
+      method: 'post',
+      body: JSON.stringify({
+        question: currentQuestion,
+        answer: ans,
+      }),
+      headers: {'Content-Type': 'application/json'}
+    })
+
+    const { report } = await response.json()
+
+    onNewReportGenerated(report);
+  }
 
   const requestMoreQuestions = async () => {
-    const response = await fetch('/questions')
+    const response = await fetch('/api/questions')
 
     // @ts-ignore
     const { questions: newQuestions, report } = await response.json()
@@ -31,29 +67,6 @@ export default function Quiz({
     onNewReportGenerated(report)
 
     setQuestions([...questions, ...newQuestions ])
-  }
-
-  const answerQuestion = async (answer: string, _: boolean) => {
-      if (questions.length < 3) await requestMoreQuestions()
-
-      setAnswer(answer)
-
-      useTimeout(async () => {
-        const response = await fetch('/answer', {
-          method: 'post',
-          body: JSON.stringify({
-            question: currentQuestion,
-            answer
-          }),
-          headers: {'Content-Type': 'application/json'}
-        });
-
-        const { report } = await response.json() as { report: QuizReport }
-
-        onNewReportGenerated(report);
-
-        setCurrentQuestion(questions.shift())
-      }, 1000)
   }
 
   return (

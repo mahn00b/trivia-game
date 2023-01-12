@@ -7,7 +7,7 @@ const COOKIE_KEY = 'QUIZ_REPORT_KEY'
 const SIX_MONTHS = 6 * 30 * 24 * 60 * 60
 
 export function getQuizReport(req: NextApiRequest): QuizReport | null {
-  const reportString = parseCookies({ req })[COOKIE_KEY]
+  const reportString = parseCookies({ req }, { path: '/' })[COOKIE_KEY]
 
   if (!reportString) return null;
 
@@ -30,5 +30,5 @@ export function setQuizReport(res: NextApiResponse, report: QuizReport) {
 }
 
 export function deleteQuizReport(res: NextApiResponse) {
-  destroyCookie({ res }, COOKIE_KEY);
+  destroyCookie({ res }, COOKIE_KEY, { path: '/' });
 }
