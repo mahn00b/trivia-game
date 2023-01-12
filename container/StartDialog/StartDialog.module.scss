@@ -1,0 +1,18 @@
+.StartDialog {
+
+  > * > * {
+    font-family: 'BioRhyme', serif;
+    background-color: #181E2E;
+    color: white;
+  }
+
+  .instructions p {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .buttonContainer {
+    flex-direction: row-reverse;
+    padding: 1.5rem;
+  }
+}

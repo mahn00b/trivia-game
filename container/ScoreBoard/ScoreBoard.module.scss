@@ -1,0 +1,89 @@
+.ScoreBoard {
+
+  > * > * {
+    font-family: 'BioRhyme', serif;
+    background-color: #181E2E;
+    color: white;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    text-align: center;
+    font-family: 'BioRhyme', serif;
+  }
+
+  .score {
+    text-align: center;
+    font-size: 5rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+  }
+
+  .scoreDetails {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  }
+
+  .buttonContainer {
+    padding: 2rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.DifficultyResultCard {
+  width: 100%;
+  white-space: nowrap;
+  margin: 0 .5rem;
+
+  .cardTitle {
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .content {
+    text-align: center;
+    margin-top: 0;
+
+    .correct {
+      font-size: 6rem;
+    }
+
+    .total {
+      font-size: 3.5rem;
+    }
+
+    @media screen and (max-width: 30rem) {
+      padding: 0 .1rem;
+
+      .correct {
+        font-size: 4rem;
+      }
+
+      .total {
+        font-size: 1.75rem;
+      }
+    }
+  }
+
+  &.easy {
+    .content {
+      color: #3a8a17;
+    }
+  }
+
+  &.medium {
+    .content {
+      color: #bed419;
+    }
+  }
+
+  &.hard {
+    .content {
+      color: #9c1027;
+    }
+  }
+}
