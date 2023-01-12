@@ -1,11 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { tallyQuestions } from '../../utils';
 import {
     getQuizReport,
     setQuizReport,
     requestNewSessionToken,
     getNewQuestions
-} from '../../data'
+} from '../../data';
 
 interface NewQuizResponse {
   sessionId: string,
@@ -44,7 +44,7 @@ function generateQuizReport(sessionId: string, initialQuestions: Question[]): Qu
     },
     createdAt: timeStamp,
     updatedAt: timeStamp
-  }
+  };
 }
 
 export default async function handler(
@@ -55,7 +55,7 @@ export default async function handler(
 
   const token = await requestNewSessionToken();
 
-  const questions = await getNewQuestions(token, req.query)
+  const questions = await getNewQuestions(token, req.query);
 
   report = generateQuizReport(token, questions);
 
@@ -65,5 +65,5 @@ export default async function handler(
     sessionId: token,
     questions,
     report,
-  })
+  });
 }

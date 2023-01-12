@@ -1,10 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 import {
     getQuizReport,
     setQuizReport,
     getNewQuestions,
-} from '../../data'
+} from '../../data';
 import { tallyQuestions } from '../../utils';
 import { DIFFICULTY_LEVELS } from '../../constants';
 
@@ -23,7 +23,7 @@ export default async function handler(
     return res.status(404).send('No session found. Start a new session using /start');
   }
 
-  const questions = await getNewQuestions(report.sessionId, req.query)
+  const questions = await getNewQuestions(report.sessionId, req.query);
 
   const tally = tallyQuestions(questions);
 
@@ -31,12 +31,12 @@ export default async function handler(
     easy: tally[0],
     medium: tally[1],
     hard: tally[2]
-  }
+  };
 
   DIFFICULTY_LEVELS.forEach((level) => {
     report.answers[level].total += numQuestions[level];
     report.answers[level].unanswered += numQuestions[level];
-  })
+  });
 
   report.totalQuestions += questions.length;
 

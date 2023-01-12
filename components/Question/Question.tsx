@@ -22,21 +22,21 @@ export default function Question({
   shouldHighlightResponse = true,
   disable = false,
 }: QuestionProps) {
-  const [selection, setSelection] = useState('')
+  const [selection, setSelection] = useState('');
 
   useEffect(() => {
     setSelection('');
-  }, [question])
+  }, [question]);
 
   // sort the answers alphabetically so the correct answer isn't always in the same place.
-  const answers = [...incorrect_answers, correct_answer].sort()
+  const answers = [...incorrect_answers, correct_answer].sort();
 
   const handleAnswerClick = (response: string) => {
     if (disable) return;
 
-    onClickAnswer(response, isCorrect)
-    setSelection(response)
-  }
+    onClickAnswer(response, isCorrect);
+    setSelection(response);
+  };
 
   const isCorrect = selection === correct_answer && shouldHighlightResponse;
   const isIncorrect = selection !== correct_answer && shouldHighlightResponse;
@@ -48,7 +48,7 @@ export default function Question({
         {answers.map((ans) => (
           <li
             className={`${styles.answer} ${ans === selection && styles.selection} ${isCorrect && styles.correct} ${isIncorrect && styles.incorrect}`}
-            onClick={() => { handleAnswerClick(ans) }}
+            onClick={() => { handleAnswerClick(ans); }}
             key={ans}
           >
             {ans}
@@ -57,5 +57,5 @@ export default function Question({
         ))}
       </ul>
     </div>
-  )
+  );
 }

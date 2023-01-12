@@ -22,12 +22,12 @@ const pad = (num: number) => `0${num}`.slice(-2);
 const formatTime = (timeInSeconds: number) => {
     const conversion = timeInSeconds / 60;
 
-    const seconds = (conversion % 1) * 60
+    const seconds = (conversion % 1) * 60;
 
-    const minutes = Math.floor(conversion)
+    const minutes = Math.floor(conversion);
 
     return `${pad(minutes)}:${pad(seconds)}`;
-}
+};
 
 const Timer = ({
   startTime = 0,
@@ -38,15 +38,15 @@ const Timer = ({
   const [time, setTime] = useState(startTime);
 
   useInterval(() => {
-    if (!pause && time < limit) setTime(time + 1)
+    if (!pause && time < limit) setTime(time + 1);
 
     if (time >= limit) onReachedLimit();
 
     // console.log(time)
-  }, 1000)
+  }, 1000);
 
   const formattedTime = formatTime(time);
-  console.log(limit, time)
+  console.log(limit, time);
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
       <CircularProgress
@@ -76,6 +76,6 @@ const Timer = ({
       </Box>
     </Box>
   );
-}
+};
 
 export default Timer;

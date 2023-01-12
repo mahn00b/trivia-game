@@ -9,5 +9,5 @@ export default function Header() {
         <Logo />
       </span>
     </header>
-  )
+  );
 }

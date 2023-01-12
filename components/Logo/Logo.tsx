@@ -6,5 +6,5 @@ export default function Logo() {
     <span className={styles.Logo} aria-label="logo">
       Trivially
     </span>
-  )
+  );
 }
