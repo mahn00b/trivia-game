@@ -8,7 +8,7 @@ import {
 import { tallyQuestions } from '../../utils';
 import { DIFFICULTY_LEVELS } from '../../constants';
 
-interface NewQuestionsResponse {
+declare interface NewQuestionsResponse {
   questions: Question[];
   report: QuizReport;
 }

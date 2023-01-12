@@ -8,7 +8,7 @@ import {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<QuizReport | string>
+  res: NextApiResponse<{ report: QuizReport } | string>
 ) {
   const report = getQuizReport(req);
 
@@ -19,5 +19,5 @@ export default async function handler(
   deleteQuizReport(res);
   await endSession(report.sessionId);
 
-  res.status(200).json(report);
+  res.status(200).json({ report });
 }

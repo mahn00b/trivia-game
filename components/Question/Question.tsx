@@ -9,7 +9,7 @@ interface QuestionProps {
   /** Toggles whether the selection should be marked on response. Default is true. */
   shouldHighlightResponse?: boolean;
   /** Disable the ability to select an answer. Default is false. */
-  disable: boolean
+  disable?: boolean
 }
 
 export default function Question({

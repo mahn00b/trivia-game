@@ -13,7 +13,7 @@ interface AnswerValidationRequest {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<QuizReport | string>
+  res: NextApiResponse<{ report:QuizReport } | string>
 ) {
   const report = getQuizReport(req);
 
@@ -41,5 +41,5 @@ export default async function handler(
 
     setQuizReport(res, report);
 
-  res.status(200).json(report);
+  res.status(200).json({ report });
 }
