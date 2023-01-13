@@ -9,15 +9,15 @@ import {
   CardContent,
   Card,
   Button
-} from '@mui/material'
+} from '@mui/material';
 import { DIFFICULTY_LEVELS } from '../../constants';
 import styles from './ScoreBoard.module.scss';
 
 const DIFFICULTY_SCORE_MODIFIERS = {
-  easy: 1,
-  medium: 2,
-  hard: 3,
-}
+  easy: 1.25,
+  medium: 1.5,
+  hard: 1.75,
+};
 
 interface ScoreBoardProps {
   /** The final report passed when the game is ended. */
@@ -40,14 +40,14 @@ export default function ScoreBoard({
     const {
       correct,
       incorrect
-    } = answers[level]
+    } = answers[level];
 
-    score += correct * 10 * DIFFICULTY_SCORE_MODIFIERS[level]
+    score += Math.floor(correct * 10 * DIFFICULTY_SCORE_MODIFIERS[level]);
 
-    score += incorrect * -5 * DIFFICULTY_SCORE_MODIFIERS[level]
+    score += incorrect * -2 * DIFFICULTY_SCORE_MODIFIERS[level];
 
     score = score < 0 ? 0 : score;
-  })
+  });
 
   return (
     <>
@@ -67,7 +67,7 @@ export default function ScoreBoard({
           {score}
         </div>
         <div className={styles.scoreDetails}>
-          {DIFFICULTY_LEVELS.map((level) => (<DifficultyResultCard answers={answers} level={level} />))}
+          {DIFFICULTY_LEVELS.map((level) => (<DifficultyResultCard key={level} answers={answers} level={level} />))}
         </div>
         <Divider />
         <div className={styles.buttonContainer}>
@@ -83,7 +83,7 @@ export default function ScoreBoard({
       </DialogContent>
     </Dialog>
     </>
-  )
+  );
 }
 
 interface DifficultyResultCardProps {
@@ -106,5 +106,5 @@ function DifficultyResultCard({
         <span className={styles.total}>{`/${answers[level].correct + answers[level].incorrect}`}</span>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,0 +1,13 @@
+.App {
+  padding: 1rem;
+
+  @media screen and (min-width: 30rem) {
+    padding: 5rem;
+  }
+
+  .timer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+}

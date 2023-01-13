@@ -22,6 +22,7 @@ export default function StartDialog({
 
   return(
     <Dialog
+      id="StartDialog"
       open={true}
       disableEscapeKeyDown={true}
       fullScreen={isMobile}
@@ -29,7 +30,7 @@ export default function StartDialog({
       maxWidth="md"
       className={styles.StartDialog}
     >
-      <DialogTitle>
+      <DialogTitle className={styles.title}>
         How to play
       </DialogTitle>
       <Divider />
@@ -50,5 +51,5 @@ export default function StartDialog({
           <Button variant="contained" onClick={onClickStart} size="large">Start</Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 }
