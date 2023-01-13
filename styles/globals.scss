@@ -34,3 +34,10 @@ a {
 html {
   color-scheme: dark;
 }
+
+// Changes for the material UI container for the dialog component
+.MuiDialog-container {
+  font-family: 'BioRhyme', serif;
+  background-color: #181E2E;
+  color: white;
+}

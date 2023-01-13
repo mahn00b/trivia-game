@@ -28,6 +28,9 @@ export default function StartDialog({
       fullScreen={isMobile}
       fullWidth
       maxWidth="md"
+      classes={{
+        paper: styles.paper
+      }}
       className={styles.StartDialog}
     >
       <DialogTitle className={styles.title}>

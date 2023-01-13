@@ -10,4 +10,13 @@
     justify-content: center;
     margin-bottom: 3rem;
   }
+
+  .quizContainer {
+    display: flex;
+    justify-content: center;
+
+    &> * {
+      max-width: 50rem;
+    }
+  }
 }

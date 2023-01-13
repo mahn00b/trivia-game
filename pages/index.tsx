@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import fetch from 'node-fetch';
 import Head from 'next/head';
-import { Header, Timer } from '../components';
+import { Header, Timer, Favicon } from '../components';
 import { ScoreBoard, StartDialog, Quiz } from '../container';
 import { QUIZ_TIME_LIMIT } from '../constants';
 import styles from '../styles/App.module.scss';
@@ -60,14 +60,14 @@ export default function Home() {
         <title>Trivially</title>
         <meta name="description" content="An app that tests your trivia knowledge." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.png" />
+        <Favicon />
       </Head>
       <Header  />
       <main className={styles.App}>
         <div className={styles.timer}>
           {!isGameOver && <Timer pause={!isPlaying || isGameOver} limit={QUIZ_TIME_LIMIT} onReachedLimit={onEndGame} />}
         </div>
-        <div>
+        <div className={styles.quizContainer}>
           {isPlaying && !isGameOver && <Quiz initialQuestions={initialQs} onNewReportGenerated={onNewReport} />}
         </div>
         <div>

@@ -57,6 +57,7 @@ export default function ScoreBoard({
       fullScreen={isMobile}
       fullWidth
       maxWidth="md"
+      classes={{ paper: styles.paper }}
       className={styles.ScoreBoard}
     >
       <DialogTitle className={styles.title}>Game Over</DialogTitle>
