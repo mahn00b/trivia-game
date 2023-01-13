@@ -42,11 +42,10 @@ const Timer = ({
 
     if (time >= limit) onReachedLimit();
 
-    // console.log(time)
   }, 1000);
 
   const formattedTime = formatTime(time);
-  console.log(limit, time);
+
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
       <CircularProgress

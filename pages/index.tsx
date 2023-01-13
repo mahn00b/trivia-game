@@ -65,7 +65,7 @@ export default function Home() {
       <Header  />
       <main className={styles.App}>
         <div className={styles.timer}>
-          {!isGameOver && <Timer pause={!isPlaying || isGameOver} limit={60} onReachedLimit={onEndGame} />}
+          {!isGameOver && <Timer pause={!isPlaying || isGameOver} limit={QUIZ_TIME_LIMIT} onReachedLimit={onEndGame} />}
         </div>
         <div>
           {isPlaying && !isGameOver && <Quiz initialQuestions={initialQs} onNewReportGenerated={onNewReport} />}
