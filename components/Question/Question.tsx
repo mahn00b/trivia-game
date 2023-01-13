@@ -10,6 +10,8 @@ interface QuestionProps {
   shouldHighlightResponse?: boolean;
   /** Disable the ability to select an answer. Default is false. */
   disable?: boolean
+  /** An ID used in testing to target the dom elements. */
+  dataTestid?: string
 }
 
 export default function Question({
@@ -21,6 +23,7 @@ export default function Question({
   onClickAnswer = () => {},
   shouldHighlightResponse = true,
   disable = false,
+  dataTestid = ''
 }: QuestionProps) {
   const [selection, setSelection] = useState('');
 
@@ -31,25 +34,30 @@ export default function Question({
   // sort the answers alphabetically so the correct answer isn't always in the same place.
   const answers = [...incorrect_answers, correct_answer].sort();
 
-  const handleAnswerClick = (response: string) => {
-    if (disable) return;
-
-    onClickAnswer(response, isCorrect);
-    setSelection(response);
-  };
-
   const isCorrect = selection === correct_answer && shouldHighlightResponse;
   const isIncorrect = selection !== correct_answer && shouldHighlightResponse;
 
+  const handleAnswerClick = (response: string) => {
+    if (disable) return;
+
+    onClickAnswer(response, response === correct_answer);
+    setSelection(response);
+  };
+
   return (
-    <div className={`${styles.Question} ${disable && styles.disable}`}>
-      <h3 className={styles.question} dangerouslySetInnerHTML={{ __html: question }} />
-      <ul className={styles.container}>
+    <div className={`${styles.Question} ${disable && styles.disable}`} data-testid={dataTestid}>
+      <h3
+        className={styles.question}
+        dangerouslySetInnerHTML={{ __html: question }}
+        data-testid={dataTestid && `${dataTestid}-question`}
+      />
+      <ul className={styles.container} data-testid={dataTestid && `${dataTestid}-answers`}>
         {answers.map((ans) => (
           <li
             className={`${styles.answer} ${ans === selection && styles.selection} ${isCorrect && styles.correct} ${isIncorrect && styles.incorrect}`}
             onClick={() => { handleAnswerClick(ans); }}
             key={ans}
+            data-testid={correct_answer === ans && dataTestid && `${dataTestid}-correct-answer`}
           >
             {ans}
             <div className={styles.circle}></div>
