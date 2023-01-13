@@ -78,7 +78,7 @@ describe('Quiz', () => {
         // wait for timeout delay
       }, { timeout: 3000 });
       jest.runAllTimers();
-      rerender(<Quiz initialQuestions={mockQuestions} onNewReportGenerated={mock} dataTestid={TEST_ID} />)
+      rerender(<Quiz initialQuestions={mockQuestions} onNewReportGenerated={mock} dataTestid={TEST_ID} />);
     }
 
     await waitFor(() => {
@@ -88,6 +88,4 @@ describe('Quiz', () => {
       expect(path).toContain('/api/questions');
     }, { timeout: 3000 });
   });
-
-
 });
