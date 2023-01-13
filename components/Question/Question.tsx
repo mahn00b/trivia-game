@@ -35,7 +35,7 @@ export default function Question({
   const answers = [...incorrect_answers, correct_answer].sort();
 
   const isCorrect = selection === correct_answer && shouldHighlightResponse;
-  const isIncorrect = selection !== correct_answer && shouldHighlightResponse;
+  const isIncorrect = selection !== '' && selection !== correct_answer && shouldHighlightResponse;
 
   const handleAnswerClick = (response: string) => {
     if (disable) return;

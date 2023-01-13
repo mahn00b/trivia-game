@@ -9,11 +9,14 @@ interface QuizProps {
   initialQuestions: Question[]
   /** A callback to retrieve the latest report. */
   onNewReportGenerated: (report: QuizReport) => void;
+  /** An id used to target the element and children during testing. */
+  dataTestid?: string
 }
 
 export default function Quiz({
   initialQuestions,
-  onNewReportGenerated
+  onNewReportGenerated,
+  dataTestid
 }: QuizProps) {
   const [answer, setAnswer] = useState('');
   const timerref = useRef<NodeJS.Timeout>();
@@ -21,8 +24,8 @@ export default function Quiz({
   const [currentQuestion, setCurrentQuestion] = useState<Question>();
 
   useEffect(() => {
-    if (!currentQuestion) setCurrentQuestion(questions.shift())
-  }, [])
+    if (!currentQuestion) setCurrentQuestion(questions.shift());
+  }, []);
 
   useEffect(() => {
     if (answer === '') return;
@@ -32,17 +35,17 @@ export default function Quiz({
       setCurrentQuestion(questions.shift());
       setAnswer('');
 
-      if (questions.length <= 3) requestMoreQuestions()
+      if (questions.length <= 3) requestMoreQuestions();
 
-    }, 1000)
+    }, 1000);
 
     return (() => {
       clearTimeout(timerref.current);
-    })
-  }, [answer])
+    });
+  }, [answer]);
 
   const answerQuestion = async (ans: string, _: boolean) => {
-    setAnswer(ans)
+    setAnswer(ans);
 
    const response = await fetch('/api/answer', {
       method: 'post',
@@ -51,27 +54,27 @@ export default function Quiz({
         answer: ans,
       }),
       headers: {'Content-Type': 'application/json'}
-    })
+    });
 
-    const { report } = await response.json()
+    const { report } = await response.json();
 
     onNewReportGenerated(report);
-  }
+  };
 
   const requestMoreQuestions = async () => {
-    const response = await fetch('/api/questions')
+    const response = await fetch('/api/questions');
 
     // @ts-ignore
-    const { questions: newQuestions, report } = await response.json()
+    const { questions: newQuestions, report } = await response.json();
 
-    onNewReportGenerated(report)
+    onNewReportGenerated(report);
 
-    setQuestions([...questions, ...newQuestions ])
-  }
+    setQuestions([...questions, ...newQuestions ]);
+  };
 
   return (
     <>
-      {currentQuestion && <Question question={currentQuestion} onClickAnswer={answerQuestion} disable={answer !== ''} />}
+      {currentQuestion && <Question question={currentQuestion} onClickAnswer={answerQuestion} disable={answer !== ''} dataTestid={dataTestid} />}
     </>
-  )
+  );
 }
