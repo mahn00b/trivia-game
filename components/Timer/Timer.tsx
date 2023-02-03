@@ -17,14 +17,12 @@ export interface TimerProps {
   onReachedLimit?: () => void;
 }
 
-const pad = (num: number) => `0${num}`.slice(-2);
 
 const formatTime = (timeInSeconds: number) => {
-    const conversion = timeInSeconds / 60;
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds - (minutes * 60);
 
-    const seconds = (conversion % 1) * 60;
-
-    const minutes = Math.floor(conversion);
+    const pad = (num: number) => `0${num}`.slice(-2);
 
     return `${pad(minutes)}:${pad(seconds)}`;
 };
